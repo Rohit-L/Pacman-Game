@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 
 public class Board {
 
@@ -14,6 +13,8 @@ public class Board {
         this.boardArray = boardArray;
         this.xScale = 35;
         this.yScale = 15;
+
+        StdDraw.setCanvasSize(1300, 500);
     }
 
     public void readLayout(String layout) {
@@ -55,61 +56,52 @@ public class Board {
                 StdDraw.setPenColor(StdDraw.RED);
                 StdDraw.setPenRadius(0.01);
                 String boardItem = this.boardArray[x][y];
-                if (boardItem.equals("X")) {
+                if (boardItem.equals("X")) { // Horizontal Wall
                     StdDraw.line(x, y + 0.5, x + 1, y + 0.5);
                 }
-                if (boardItem.equals("L")) {
+                if (boardItem.equals("L")) { // Vertical Wall
                     StdDraw.line(x + 0.5, y, x + 0.5, y + 1);
                 }
-                if (boardItem.equals("1")) {
+                if (boardItem.equals("1")) { // TopLeft Curve Wall
                     StdDraw.arc(x + 1, y, 0.5, 90, 180);
                 }
-                if (boardItem.equals("2")) {
+                if (boardItem.equals("2")) { // TopRight Curve Wall
                     StdDraw.arc(x, y, 0.5, 0, 90);
                 }
-                if (boardItem.equals("3")) {
+                if (boardItem.equals("3")) { // BottomLeft Curve Wall
                     StdDraw.arc(x + 1, y + 1, 0.5, 180, 270);
                 }
-                if (boardItem.equals("4")) {
+                if (boardItem.equals("4")) { // BottomRight Curve Wall
                     StdDraw.arc(x, y + 1, 0.5, 270, 360);
                 }
-                if (boardItem.equals("U")) {
+                if (boardItem.equals("U")) { // Inverted T Wall
                     StdDraw.line(x, y + 0.5, x + 1, y + 0.5);
                     StdDraw.line(x + 0.5, y + 0.5, x + 0.5, y + 1);
                 }
-
-                if (boardItem.equals(("*"))) {
+                if (boardItem.equals(("*"))) { // Circle Wall
                     StdDraw.circle(x + 0.5, y + 0.5, .3);
                 }
-
-                if (boardItem.equals(("5"))) {
+                if (boardItem.equals(("5"))) { // TopLeft Curve - WHITE Wall
                     StdDraw.setPenColor(StdDraw.WHITE);
                     StdDraw.arc(x + 1, y, 0.5, 90, 180);
-
                 }
-
-                if (boardItem.equals(("6"))) {
+                if (boardItem.equals(("6"))) { // TopRight Curve - WHITE Wall
                     StdDraw.setPenColor(StdDraw.WHITE);
                     StdDraw.arc(x, y, 0.5, 0, 90);
-
                 }
-
-                if (boardItem.equals("G")) {
+                if (boardItem.equals("G")) { // Ghost
                     StdDraw.setPenColor(StdDraw.BLUE);
                     StdDraw.picture(x + 0.5, y + 0.5, "img/cop.jpg", 1.2, 1.2);
                 }
-
-                if (boardItem.equals("P")) {
+                if (boardItem.equals("P")) { // Pacman
                     StdDraw.setPenColor(StdDraw.YELLOW);
                     StdDraw.filledCircle(x + 0.5, y + 0.5, 0.49);
                 }
-
-                if (boardItem.equals(".")) {
+                if (boardItem.equals(".")) { // Food Pellet
                     StdDraw.setPenColor(StdDraw.WHITE);
                     StdDraw.filledCircle(x + 0.5, y + 0.5, .12);
                 }
-
-                if (boardItem.equals("C")) {
+                if (boardItem.equals("C")) { // Capsule
                     StdDraw.setPenColor(StdDraw.WHITE);
                     StdDraw.filledCircle(x + 0.5, y + 0.5, .32);
                 }
