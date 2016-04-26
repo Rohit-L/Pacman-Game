@@ -39,6 +39,10 @@ public class Board {
         }
     }
 
+    public String[][] getBoardArray() {
+        return this.boardArray;
+    }
+
     public void drawBoard() {
 
         /* Set Board Size */

@@ -3,7 +3,6 @@ import java.util.HashMap;
 public class Game {
 
     private static HashMap<String, Integer> keyBindings = new HashMap<String, Integer>();
-    public String[][] boardArray;
 
     public static void main(String[] args) {
 
@@ -16,10 +15,16 @@ public class Game {
 
         StdDraw.setCanvasSize(1300, 500);
 
-        GameState gameState = new GameState(boardArray);
         Board board = new Board(boardArray);
 
+
         board.readLayout("standardLayout.txt");
+
+        String[][] boardLayout = board.getBoardArray();
+
+        GameState gameState = new GameState(boardLayout);
+        System.out.println(gameState);
+
 
         while(true) {
 
