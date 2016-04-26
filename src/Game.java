@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class Game {
 
     private static HashMap<String, Integer> keyBindings = new HashMap<String, Integer>();
-    public Agent agent;
+    public String[][] boardArray;
 
     public static void main(String[] args) {
 
@@ -12,33 +12,39 @@ public class Game {
         keyBindings.put("Up", 38);
         keyBindings.put("Down", 40);
 
-        Agent agent = new Agent();
+        String[][] boardArray = new String[35][15];
 
-        GameState gameState = new GameState();
+        StdDraw.setCanvasSize(1300, 500);
+
+        GameState gameState = new GameState(boardArray);
+        Board board = new Board(boardArray);
+
+        board.readLayout("standardLayout.txt");
 
         while(true) {
 
-            gameState.takeAction(agent);
 
             /* Mouse Click */
             if (StdDraw.isKeyPressed(keyBindings.get("Left"))) {
-                gameState.keyPressed(agent, "Left");
+                gameState.keyPressed("Left");
             }
 
             if (StdDraw.isKeyPressed(keyBindings.get("Right"))) {
-                gameState.keyPressed(agent, "Right");
+                gameState.keyPressed("Right");
             }
 
             if (StdDraw.isKeyPressed(keyBindings.get("Up"))) {
-                gameState.keyPressed(agent, "Up");
+                gameState.keyPressed("Up");
             }
 
             if (StdDraw.isKeyPressed(keyBindings.get("Down"))) {
-                gameState.keyPressed(agent, "Down");
+                gameState.keyPressed("Down");
             }
 
             /* Refresh Board */
-            gameState.dispay();
+            board.drawBoard();
+            StdDraw.show(50);
+
         }
     }
 }
