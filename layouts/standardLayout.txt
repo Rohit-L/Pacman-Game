@@ -1,15 +1,15 @@
 1XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX2
-L                                 L
-L 1X2                             L
-L L L                             L
-L L L                             L
-L L L                             L
-L L 3XXX                          L
-L L                               L
-L L                               L
-L L                               L
-L L                               L
-L L                               L
-L L                               L
-L L                               L
-3X^XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX4
+L.................................L
+L.12.1X2...1XXXX2..12.....1XXXXX2.L
+L.LL.L L...3X21X4..LL.....3XXXXX4.L
+L.LL.3X4.....LL....LL.............L
+L.LL.........34.1XX43XX2..C12.....L
+L.LL....1XX2....3XX21XX4..14L.....L
+L.LL....3X2L.......LL.....3X4..12.L
+L.LL.12...LL.......LL..........LL.L
+L.LL.LL.*.LL.12.12.34...1XXXX2.LL.L
+L.LL.LL...34.LLCLL......L1XX2L.LL.L
+L.LL.L3X2....L3X4L......LL..LL.LL.L
+L.LL.3XX4....3XXX4.5  6.34..34.34.L
+LPLL...............LGGL...........L
+3XUUXXXXXXXXXXXXXXXUXXUXXXXXXXXXXX4
