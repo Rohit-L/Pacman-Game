@@ -19,11 +19,12 @@ public class GameState {
         StdDraw.setCanvasSize(1300, 500);
 
         this.boardArray = new String[35][15];
+        this.board = new Board(this.boardArray);
+        board.readLayout("standardLayout.txt");
+
         this.configuration = this.boardArray;
         this.populateFood();
 
-        this.board = new Board(this.boardArray);
-        board.readLayout("standardLayout.txt");
         board.drawBoard();
     }
 
