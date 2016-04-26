@@ -16,7 +16,7 @@ public class Game {
 
         StdDraw.setCanvasSize(1300, 500);
 
-        GameState game = new GameState(boardArray);
+        GameState gameState = new GameState(boardArray);
         Board board = new Board(boardArray);
 
         board.readLayout("standardLayout.txt");
@@ -26,19 +26,19 @@ public class Game {
 
             /* Mouse Click */
             if (StdDraw.isKeyPressed(keyBindings.get("Left"))) {
-                game.keyPressed("Left");
+                gameState.keyPressed("Left");
             }
 
             if (StdDraw.isKeyPressed(keyBindings.get("Right"))) {
-                game.keyPressed("Right");
+                gameState.keyPressed("Right");
             }
 
             if (StdDraw.isKeyPressed(keyBindings.get("Up"))) {
-                game.keyPressed("Up");
+                gameState.keyPressed("Up");
             }
 
             if (StdDraw.isKeyPressed(keyBindings.get("Down"))) {
-                game.keyPressed("Down");
+                gameState.keyPressed("Down");
             }
 
             /* Refresh Board */
