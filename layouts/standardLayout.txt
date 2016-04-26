@@ -1,0 +1,15 @@
+1XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX2
+L                                 L
+L 1X2                             L
+L L L                             L
+L L L                             L
+L L L                             L
+L L 3XXX                          L
+L L                               L
+L L                               L
+L L                               L
+L L                               L
+L L                               L
+L L                               L
+L L                               L
+3X^XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX4
