@@ -30,7 +30,7 @@ public class GameState {
 
     public void dispay() {
         board.drawBoard();
-        StdDraw.show(90);
+        StdDraw.show(150);
     }
 
     public void keyPressed(Agent agent, String direction) {
@@ -84,6 +84,10 @@ public class GameState {
             int[] pacmanCurrentPosition = this.currentPacmanPosition();
             int[] nextPosition = new int[] {pacmanCurrentPosition[0], pacmanCurrentPosition[1] + 1};
             if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
+                Point point = new Point(pacmanCurrentPosition[0], pacmanCurrentPosition[1]);
+                if (this.food.contains(point)) {
+                    this.food.remove(point);
+                }
                 boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
                 boardArray[nextPosition[0]][nextPosition[1]] = "P";
             }
@@ -92,6 +96,10 @@ public class GameState {
             int[] pacmanCurrentPosition = this.currentPacmanPosition();
             int[] nextPosition = new int[] {pacmanCurrentPosition[0] + 1, pacmanCurrentPosition[1]};
             if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
+                Point point = new Point(pacmanCurrentPosition[0], pacmanCurrentPosition[1]);
+                if (this.food.contains(point)) {
+                    this.food.remove(point);
+                }
                 boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
                 boardArray[nextPosition[0]][nextPosition[1]] = "P";
             }
@@ -100,6 +108,10 @@ public class GameState {
             int[] pacmanCurrentPosition = this.currentPacmanPosition();
             int[] nextPosition = new int[] {pacmanCurrentPosition[0] - 1, pacmanCurrentPosition[1]};
             if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
+                Point point = new Point(pacmanCurrentPosition[0], pacmanCurrentPosition[1]);
+                if (this.food.contains(point)) {
+                    this.food.remove(point);
+                }
                 boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
                 boardArray[nextPosition[0]][nextPosition[1]] = "P";
             }
@@ -108,6 +120,10 @@ public class GameState {
             int[] pacmanCurrentPosition = this.currentPacmanPosition();
             int[] nextPosition = new int[] {pacmanCurrentPosition[0], pacmanCurrentPosition[1] - 1};
             if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
+                Point point = new Point(pacmanCurrentPosition[0], pacmanCurrentPosition[1]);
+                if (this.food.contains(point)) {
+                    this.food.remove(point);
+                }
                 boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
                 boardArray[nextPosition[0]][nextPosition[1]] = "P";
             }
