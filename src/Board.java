@@ -73,9 +73,45 @@ public class Board {
                 if (boardItem.equals("4")) {
                     StdDraw.arc(x, y + 1, 0.5, 270, 360);
                 }
-                if (boardItem.equals("^")) {
+                if (boardItem.equals("U")) {
                     StdDraw.line(x, y + 0.5, x + 1, y + 0.5);
                     StdDraw.line(x + 0.5, y + 0.5, x + 0.5, y + 1);
+                }
+
+                if (boardItem.equals(("*"))) {
+                    StdDraw.circle(x + 0.5, y + 0.5, .3);
+                }
+
+                if (boardItem.equals(("5"))) {
+                    StdDraw.setPenColor(StdDraw.WHITE);
+                    StdDraw.arc(x + 1, y, 0.5, 90, 180);
+
+                }
+
+                if (boardItem.equals(("6"))) {
+                    StdDraw.setPenColor(StdDraw.WHITE);
+                    StdDraw.arc(x, y, 0.5, 0, 90);
+
+                }
+
+                if (boardItem.equals("G")) {
+                    StdDraw.setPenColor(StdDraw.BLUE);
+                    StdDraw.picture(x + 0.5, y + 0.5, "img/cop.jpg", 1.2, 1.2);
+                }
+
+                if (boardItem.equals("P")) {
+                    StdDraw.setPenColor(StdDraw.YELLOW);
+                    StdDraw.filledCircle(x + 0.5, y + 0.5, 0.49);
+                }
+
+                if (boardItem.equals(".")) {
+                    StdDraw.setPenColor(StdDraw.WHITE);
+                    StdDraw.filledCircle(x + 0.5, y + 0.5, .12);
+                }
+
+                if (boardItem.equals("C")) {
+                    StdDraw.setPenColor(StdDraw.WHITE);
+                    StdDraw.filledCircle(x + 0.5, y + 0.5, .32);
                 }
             }
         }
