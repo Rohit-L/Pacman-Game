@@ -23,7 +23,6 @@ public class Game {
         String[][] boardLayout = board.getBoardArray();
 
         GameState gameState = new GameState(boardLayout);
-        System.out.println(gameState);
 
 
         while(true) {

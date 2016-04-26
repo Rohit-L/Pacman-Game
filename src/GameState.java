@@ -1,5 +1,7 @@
+import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 public class GameState {
@@ -7,11 +9,13 @@ public class GameState {
     private String[][] configuration;
     private int numFood;
     private int numCapsules;
+    private HashSet<Point> food = new HashSet<Point>();
 
     public GameState(String[][] boardArray) {
         this.configuration = boardArray;
         System.out.println("GameState Class");
-
+        this.populateFood();
+        System.out.println(this.food);
     }
 
     public void keyPressed(String direction) {
@@ -27,5 +31,16 @@ public class GameState {
         }
         return "";
     }
+
+    public void populateFood() {
+        for (int i = 0; i < this.configuration.length; i++) {
+            for (int j = 0; j < this.configuration[0].length; j++) {
+                if (this.configuration[i][j].equals(".")) {
+                    this.food.add(new Point(i, j));
+                }
+            }
+        }
+    }
+
 
 }
