@@ -19,13 +19,34 @@ public class GameState {
 
     public void dispay() {
         board.drawBoard();
-        StdDraw.show(100);
+        StdDraw.show(90);
     }
 
     public void keyPressed(Agent agent, String direction) {
         if (direction.equals("Right")) {
             int[] pacmanCurrentPosition = this.currentPacmanPosition();
             int[] nextPosition = new int[] {pacmanCurrentPosition[0] + 1, pacmanCurrentPosition[1]};
+            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
+                agent.currentDirection = direction;
+            }
+        }
+        if (direction.equals("Left")) {
+            int[] pacmanCurrentPosition = this.currentPacmanPosition();
+            int[] nextPosition = new int[] {pacmanCurrentPosition[0] - 1, pacmanCurrentPosition[1]};
+            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
+                agent.currentDirection = direction;
+            }
+        }
+        if (direction.equals("Up")) {
+            int[] pacmanCurrentPosition = this.currentPacmanPosition();
+            int[] nextPosition = new int[] {pacmanCurrentPosition[0], pacmanCurrentPosition[1] + 1};
+            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
+                agent.currentDirection = direction;
+            }
+        }
+        if (direction.equals("Down")) {
+            int[] pacmanCurrentPosition = this.currentPacmanPosition();
+            int[] nextPosition = new int[] {pacmanCurrentPosition[0], pacmanCurrentPosition[1] - 1};
             if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
                 agent.currentDirection = direction;
             }
@@ -59,6 +80,22 @@ public class GameState {
         if (agentAction.equals("Right")) {
             int[] pacmanCurrentPosition = this.currentPacmanPosition();
             int[] nextPosition = new int[] {pacmanCurrentPosition[0] + 1, pacmanCurrentPosition[1]};
+            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
+                boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
+                boardArray[nextPosition[0]][nextPosition[1]] = "P";
+            }
+        }
+        if (agentAction.equals("Left")) {
+            int[] pacmanCurrentPosition = this.currentPacmanPosition();
+            int[] nextPosition = new int[] {pacmanCurrentPosition[0] - 1, pacmanCurrentPosition[1]};
+            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
+                boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
+                boardArray[nextPosition[0]][nextPosition[1]] = "P";
+            }
+        }
+        if (agentAction.equals("Down")) {
+            int[] pacmanCurrentPosition = this.currentPacmanPosition();
+            int[] nextPosition = new int[] {pacmanCurrentPosition[0], pacmanCurrentPosition[1] - 1};
             if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
                 boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
                 boardArray[nextPosition[0]][nextPosition[1]] = "P";
