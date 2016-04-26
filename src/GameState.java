@@ -5,6 +5,8 @@ import java.util.LinkedList;
 public class GameState {
 
     private String[][] configuration;
+    private int numFood;
+    private int numCapsules;
 
     public GameState(String[][] boardArray) {
         this.configuration = boardArray;
