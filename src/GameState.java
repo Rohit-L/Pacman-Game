@@ -1,6 +1,13 @@
+import java.awt.*;
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class GameState {
+
+    private String[][] configuration;
+    private int numFood;
+    private int numCapsules;
+    private HashSet<Point> food = new HashSet<Point>();
 
     private String[][] boardArray;
     private Board board;
@@ -12,6 +19,9 @@ public class GameState {
         StdDraw.setCanvasSize(1300, 500);
 
         this.boardArray = new String[35][15];
+        this.configuration = this.boardArray;
+        this.populateFood();
+
         this.board = new Board(this.boardArray);
         board.readLayout("standardLayout.txt");
         board.drawBoard();
@@ -103,11 +113,31 @@ public class GameState {
         }
     }
 
+    public void populateFood() {
+        for (int i = 0; i < this.configuration.length; i++) {
+            for (int j = 0; j < this.configuration[0].length; j++) {
+                if (this.configuration[i][j].equals(".")) {
+                    this.food.add(new Point(i, j));
+                }
+            }
+        }
+    }
+
     public String[][] deepCopyBoard() {
         final String[][] result = new String[this.boardArray.length][];
         for (int i = 0; i < this.boardArray.length; i++) {
             result[i] = Arrays.copyOf(this.boardArray[i], this.boardArray[i].length);
         }
         return result;
+    }
+
+    public String toString() {
+        for (int i = this.configuration[0].length - 1; i >= 0; i--) {
+            for (int j = 0; j < this.configuration.length; j++) {
+                System.out.print(this.configuration[j][i] + " ");
+            }
+            System.out.print("\n");
+        }
+        return "";
     }
 }
