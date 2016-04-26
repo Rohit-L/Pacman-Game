@@ -8,13 +8,13 @@ public class GameState {
 
 
     public GameState() {
-        String[][] boardArray = new String[35][15];
 
-        this.boardArray = boardArray;
+        StdDraw.setCanvasSize(1300, 500);
+
+        this.boardArray = new String[35][15];
         this.board = new Board(this.boardArray);
         board.readLayout("standardLayout.txt");
         board.drawBoard();
-
     }
 
     public void dispay() {
