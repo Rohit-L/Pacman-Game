@@ -9,22 +9,14 @@ public class Board {
     private int xScale;
     private int yScale;
     private String[][] boardArray;
-    private static HashMap<String, String> layoutToMap = new HashMap<String, String>();
 
     public Board(String[][] boardArray) {
         this.boardArray = boardArray;
         this.xScale = 35;
         this.yScale = 15;
-        layoutToMap.put("X", "horizontal");
-        layoutToMap.put("L", "vertical");
-        layoutToMap.put("1", "90to180");
-        layoutToMap.put("2", "0to90");
-        layoutToMap.put("3", "180to270");
-        layoutToMap.put("4", "270to0");
     }
 
     public void readLayout(String layout) {
-        System.out.println(layoutToMap.toString());
         String line = null;
         try {
             FileReader fileReader = new FileReader("layouts/" + layout);
