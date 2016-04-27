@@ -3,8 +3,6 @@ import java.util.HashMap;
 public class Game {
 
     private static HashMap<String, Integer> keyBindings = new HashMap<String, Integer>();
-    public String[][] boardArray;
-    public Agent agent;
 
     public static void main(String[] args) {
 
@@ -14,7 +12,6 @@ public class Game {
         keyBindings.put("Down", 40);
 
         GameState gameState = new GameState();
-        Pacman pacman = new Pacman();
         System.out.println(gameState);
 
         while(true) {

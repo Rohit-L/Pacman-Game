@@ -12,8 +12,12 @@ public class Agent {
         return this.currentDirection;
     }
 
-    public Point getCurrentPosition(Board board) {
+    public Point getCurrentPosition() {
         return new Point();
+    }
+
+    public void setCurrentPosition(Point p) {
+
     }
 
     public void setCurrentDirection(String direction) {

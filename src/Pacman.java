@@ -6,19 +6,18 @@ import java.awt.*;
 public class Pacman extends Agent {
 
     int eatenFood;
+    Point currentPosition;
 
     public Pacman () {
         this.eatenFood = 0;
+        this.currentPosition = null;
     }
 
-    public Point getCurrentPosition(Board board) {
-        for (int x = 0; x < 35; x++) {
-            for (int y = 0; y < 15; y++) {
-                if (board.getBoardArray()[x][y].equals("P")) {
-                    return new Point(x,y);
-                }
-            }
-        }
-        return null;
+    public Point getCurrentPosition() {
+        return this.currentPosition;
+    }
+
+    public void setCurrentPosition(Point p) {
+        this.currentPosition = p;
     }
 }
