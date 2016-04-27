@@ -18,6 +18,7 @@ public class GameState {
     private int numCapsules;
     private int timeLeft;
     private boolean capsuleActive;
+    private int score;
 
     public GameState() {
 
@@ -32,7 +33,7 @@ public class GameState {
             this.ghosts.add(new Ghost(i + 1, allElems.get("Ghosts").get(i)));
         }
 
-
+        this.score = 0;
         this.agentTurn = 0;
         this.numFood = this.food.size();
         this.numCapsules = this.capsules.size();
@@ -78,18 +79,13 @@ public class GameState {
 //        return result;
 //    }
 
-//    public String toString() {
-//        for (int i = this.configuration[0].length - 1; i >= 0; i--) {
-//            for (int j = 0; j < this.configuration.length; j++) {
-//                System.out.print(this.configuration[j][i] + " ");
-//            }
-//            System.out.print("\n");
-//        }
-//        System.out.println("Num Food Left " + numFood);
-//        System.out.println("Num Capsules Left " + numCapsules);
-//        System.out.println("Time Left " + timeLeft);
-//        return "";
-//    }
+    public String toString() {
+        System.out.println("Num Food Left " + numFood);
+        System.out.println("Num Capsules Left " + numCapsules);
+        System.out.println("Time Left " + timeLeft);
+        System.out.println("Pacman Position" + this.pacman.getCurrentPosition());
+        return "";
+    }
 
 
     private void executePacmanTurn() {
@@ -107,7 +103,8 @@ public class GameState {
             /* Check for eaten food */
             if (this.food.contains(point)) {
                 this.food.remove(point);
-                pacman.eatenFood += 1;
+                this.pacman.eatenFood += 1;
+                this.score += 10;
                 this.numFood -= 1;
             }
 
@@ -131,9 +128,9 @@ public class GameState {
                         ghostDeath = true;
                         break;
                     } else { //pacman dies
-
                         this.pacman.setCurrentPosition(this.pacman.getInitialPosition());
                         pacmanDeath = true;
+                        this.score -= 10;
                         break;
                     }
                 }
@@ -147,6 +144,7 @@ public class GameState {
         }
 
         this.timeLeft -= 1;
+        this.score -= 1;
     }
 
     private void executeGhostTurn(int agentTurn) {
@@ -171,6 +169,7 @@ public class GameState {
 
                     /* Reset Pacman to the initial location */
                     this.pacman.setCurrentPosition(this.pacman.getInitialPosition());
+                    this.score -= 10;
                     pacmanDeath = true;
 
                 } else {
