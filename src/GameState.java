@@ -1,5 +1,7 @@
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class GameState {
 
@@ -212,5 +214,25 @@ public class GameState {
 
     public Point getPacmanPosition() {
         return this.pacman.getCurrentPosition();
+    }
+
+    public ArrayList<String> getLegalActions(Point positiion) {
+        String[] possibleActions = new String[]{"Up", "Down", "Left", "Right"};
+        ArrayList<String> legalActions = new ArrayList<String>();
+        for (String action: possibleActions) {
+            Point nextPosition = new Point(positiion);
+            dir.next(nextPosition, action);
+
+            if (!this.walls.contains(nextPosition)) {
+                legalActions.add(action);
+            }
+        }
+        return legalActions;
+    }
+
+    public Point getNextPositionGivenAction(Point position, String action) {
+        Point nextPosition = new Point(position);
+        dir.next(nextPosition, action);
+        return nextPosition;
     }
 }

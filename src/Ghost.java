@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Ghost extends Agent {
 
@@ -36,10 +37,33 @@ public class Ghost extends Agent {
 
     //Subtract ghost timer
     public String chooseAction(GameState gameState) {
+
         Point pacmanPosition = gameState.getPacmanPosition();
+        Point myPosition = this.getCurrentPosition();
+        ArrayList<String> legalActions = gameState.getLegalActions(myPosition);
+
         if (this.scaredTimer > 0) {
             this.scaredTimer -= 1;
         }
-        return "Up";
+
+        double minimumDistance = 999;
+        String bestAction = null;
+
+        for (String action: legalActions) {
+            Point nextPosition = gameState.getNextPositionGivenAction(myPosition, action);
+
+            int dx = nextPosition.x - pacmanPosition.x;
+            int dy = nextPosition.y - pacmanPosition.y;
+
+            double x2 = Math.pow(dx, 2);
+            double y2 = Math.pow(dy, 2);
+
+            double distanceToPacman = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+            if (distanceToPacman < minimumDistance) {
+                minimumDistance = distanceToPacman;
+                bestAction = action;
+            }
+        }
+        return bestAction;
     }
 }
