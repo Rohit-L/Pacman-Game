@@ -40,6 +40,7 @@ public class Ghost extends Agent {
         }
 
         double minimumDistance = 999;
+        double maxDistance = -999;
         String bestAction = null;
 
         for (String action: legalActions) {
@@ -52,9 +53,16 @@ public class Ghost extends Agent {
             double y2 = Math.pow(dy, 2);
 
             double distanceToPacman = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-            if (distanceToPacman < minimumDistance) {
-                minimumDistance = distanceToPacman;
-                bestAction = action;
+            if (this.scaredTimer > 0) {
+                if (distanceToPacman >= maxDistance) {
+                    maxDistance = distanceToPacman;
+                    bestAction = action;
+                }
+            } else {
+                if (distanceToPacman < minimumDistance) {
+                    minimumDistance = distanceToPacman;
+                    bestAction = action;
+                }
             }
         }
         return bestAction;
