@@ -145,12 +145,21 @@ public class Board {
 
         // Pacman
         Pacman p = gameState.getPacman();
-        StdDraw.setPenColor(StdDraw.YELLOW);
-        StdDraw.filledCircle(p.getCurrentPosition().x + 0.5, p.getCurrentPosition().y + 0.5, 0.49);
+//        StdDraw.setPenColor(StdDraw.YELLOW);
+//        StdDraw.filledCircle(p.getCurrentPosition().x + 0.5, p.getCurrentPosition().y + 0.5, 0.49);
+        StdDraw.picture(p.getCurrentPosition().x + 0.5, p.getCurrentPosition().y + 0.5, "img/pacman.jpg", 1.2, 1.2);
 
         // Ghosts
         for (Ghost g: gameState.getGhosts()) {
-            StdDraw.picture(g.getCurrentPosition().x + 0.5, g.getCurrentPosition().y + 0.5, "img/cop.jpg", 1.2, 1.2);
+            if (g.getScaredTimer() == 0) {
+                if (g.getId() == 1) {
+                    StdDraw.picture(g.getCurrentPosition().x + 0.5, g.getCurrentPosition().y + 0.5, "img/pinkGhost.jpg", 1.2, 1.2);
+                } else {
+                    StdDraw.picture(g.getCurrentPosition().x + 0.5, g.getCurrentPosition().y + 0.5, "img/redGhost.jpg", 1.2, 1.2);
+                }
+            } else {
+                StdDraw.picture(g.getCurrentPosition().x + 0.5, g.getCurrentPosition().y + 0.5, "img/scared.jpg", 1.2, 1.2);
+            }
         }
 
         StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);

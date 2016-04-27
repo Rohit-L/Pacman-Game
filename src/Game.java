@@ -30,7 +30,7 @@ public class Game {
             gameState.takeAction();
             gameState.display();
             /* End Game Conditions */
-            if (gameState.getTimeLeft() == 0) {
+            if (gameState.getTimeLeft() == 0 || gameState.getScore() <= -50) {
                 gameState.setState("Lose");
             }
             if (gameState.getNumFood() == 0) {

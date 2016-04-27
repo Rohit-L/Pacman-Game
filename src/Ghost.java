@@ -67,4 +67,6 @@ public class Ghost extends Agent {
         }
         return bestAction;
     }
+
+    public int getId() { return this.id; }
 }
