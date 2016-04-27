@@ -47,7 +47,7 @@ public class GameState {
 
 
     public void display() {
-        board.drawBoard(this.pacman, this.ghosts, this.food, this.capsules);
+        board.drawBoard(this);
         StdDraw.show(60);
     }
 
@@ -208,6 +208,14 @@ public class GameState {
     public int getTimeLeft() {
         return this.timeLeft;
     }
+
+    public Pacman getPacman() { return this.pacman; }
+
+    public ArrayList<Ghost> getGhosts() { return this.ghosts; }
+
+    public HashSet<Point> getFood() { return this.food; }
+
+    public HashSet<Point> getCapsules() { return this.capsules; }
 
     public Point getPacmanPosition() {
         return this.pacman.getCurrentPosition();

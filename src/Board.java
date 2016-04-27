@@ -78,10 +78,10 @@ public class Board {
         return this.wallArray;
     }
 
-    public void drawBoard(Pacman p, ArrayList<Ghost> ghosts, HashSet<Point> food, HashSet<Point> capsules) {
+    public void drawBoard(GameState gameState) {
 
         /* Set Board Size */
-        StdDraw.setXscale(0, xScale);
+        StdDraw.setXscale(0, xScale + 5);
         StdDraw.setYscale(0, yScale);
 
         /* Display blank board */
@@ -132,24 +132,32 @@ public class Board {
         }
 
         // Food
-        for (Point f: food) {
+        for (Point f: gameState.getFood()) {
             StdDraw.setPenColor(StdDraw.WHITE);
             StdDraw.filledCircle(f.x + 0.5, f.y + 0.5, .12);
         }
 
         // Capsules
-        for (Point c: capsules) {
+        for (Point c: gameState.getCapsules()) {
             StdDraw.setPenColor(StdDraw.WHITE);
             StdDraw.filledCircle(c.x + 0.5, c.y + 0.5, .32);
         }
 
         // Pacman
+        Pacman p = gameState.getPacman();
         StdDraw.setPenColor(StdDraw.YELLOW);
         StdDraw.filledCircle(p.getCurrentPosition().x + 0.5, p.getCurrentPosition().y + 0.5, 0.49);
 
         // Ghosts
-        for (Ghost g: ghosts) {
+        for (Ghost g: gameState.getGhosts()) {
             StdDraw.picture(g.getCurrentPosition().x + 0.5, g.getCurrentPosition().y + 0.5, "img/cop.jpg", 1.2, 1.2);
+        }
+
+        StdDraw.setPenColor(StdDraw.BLUE);
+        for (int x = xScale; x < xScale + 5; x++) {
+            for (int y = 0; y < this.yScale; y++) {
+                StdDraw.filledSquare(x + .5, y + .5, .5);
+            }
         }
 
 
