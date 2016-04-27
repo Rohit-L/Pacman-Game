@@ -12,15 +12,12 @@ public class GameState {
     private HashSet<Point> capsules;
     private HashSet<Point> walls;
     private int numFood;
-    Directions dir;
+    private Directions dir;
     private Board board;
     private int agentTurn;
     private int numCapsules;
     private int timeLeft;
     private boolean capsuleActive;
-
-
-
 
     public GameState() {
 
