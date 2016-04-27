@@ -4,11 +4,13 @@ import java.util.HashSet;
 
 public class GameState {
 
-    private String[][] configuration;
+    String[][] configuration;
     private int numFood;
     private int numCapsules;
+    private int timeLeft;
     private HashSet<Point> food = new HashSet<Point>();
     private HashSet<Point> capsules = new HashSet<Point>();
+    private static int START_TIME = 200;
 
     private Board board;
     private String[] walls = new String[]{"1", "2", "3", "4", "5", "6", "*", "U", "X", "L"};
@@ -24,17 +26,19 @@ public class GameState {
 
         this.numFood = this.populateFood();
         this.numCapsules = this.populateCapsules();
+        this.timeLeft = START_TIME;
 
-        this.dispay();
+        this.display();
+
     }
 
-    public void dispay() {
+    public void display() {
         board.drawBoard();
         StdDraw.show(60);
     }
 
     public void keyPressed(Agent agent, String direction) {
-        Point pacmanCurrentPosition = this.currentPacmanPosition();
+        Point pacmanCurrentPosition = agent.getCurrentPosition(this.board);
         Point nextPosition = null;
         switch (direction) {
             case "Up":
@@ -54,27 +58,16 @@ public class GameState {
                 break;
         }
         if (!Arrays.asList(walls).contains(this.configuration[nextPosition.x][nextPosition.y])) {
-            agent.currentDirection = direction;
+            agent.setCurrentDirection(direction);
         }
 
         System.out.println(direction + " Key Pressed");
     }
 
-    public Point currentPacmanPosition() {
-        for (int x = 0; x < 35; x++) {
-            for (int y = 0; y < 15; y++) {
-                if (this.configuration[x][y].equals("P")) {
-                    return new Point(x,y);
-                }
-            }
-        }
-        return null;
-    }
-
     public void takeAction(Agent agent) {
 
         String agentAction = agent.chooseAction();
-        Point pacmanCurrentPosition = this.currentPacmanPosition();
+        Point pacmanCurrentPosition = agent.getCurrentPosition(this.board);
         Point nextPosition = null;
         switch (agentAction) {
             case "Up":
@@ -157,11 +150,17 @@ public class GameState {
         return "";
     }
 
+    //GETTERS AND SETTERS
+
     public int getNumFood() {
         return this.numFood;
     }
 
     public int getNumCapsules() {
         return this.numCapsules;
+    }
+
+    public int getTimeLeft() {
+        return this.timeLeft;
     }
 }

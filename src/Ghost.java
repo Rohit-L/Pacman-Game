@@ -6,6 +6,6 @@ public class Ghost extends Agent {
     private int scaredTimer;
 
     public Ghost () {
-        this.scaredTimer = 20;
+        this.scaredTimer = SCARED_TIME;
     }
 }

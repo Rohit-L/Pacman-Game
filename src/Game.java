@@ -14,27 +14,27 @@ public class Game {
         keyBindings.put("Down", 40);
 
         GameState gameState = new GameState();
-        Agent agent = new Agent();
+        Pacman pacman = new Pacman();
         System.out.println(gameState);
 
         while(true) {
 
             /* Mouse Click */
             if (StdDraw.isKeyPressed(keyBindings.get("Left"))) {
-                gameState.keyPressed(agent, "Left");
+                gameState.keyPressed(pacman, "Left");
             }
             if (StdDraw.isKeyPressed(keyBindings.get("Right"))) {
-                gameState.keyPressed(agent, "Right");
+                gameState.keyPressed(pacman, "Right");
             }
             if (StdDraw.isKeyPressed(keyBindings.get("Up"))) {
-                gameState.keyPressed(agent, "Up");
+                gameState.keyPressed(pacman, "Up");
             }
             if (StdDraw.isKeyPressed(keyBindings.get("Down"))) {
-                gameState.keyPressed(agent, "Down");
+                gameState.keyPressed(pacman, "Down");
             }
 
-            gameState.takeAction(agent);
-            gameState.dispay();
+            gameState.takeAction(pacman);
+            gameState.display();
 
             if (gameState.getNumFood() == 0) {
                 System.out.println(gameState);
