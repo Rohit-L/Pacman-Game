@@ -3,22 +3,21 @@ import java.awt.*;
 public class Pacman extends Agent {
 
     int eatenFood;
-    Point currentPosition;
-    Point initialPosition;
+    String currentDirection;
+    String futureDirection;
 
     public Pacman (Point initialPosition) {
+        super(initialPosition);
         this.eatenFood = 0;
-        this.currentPosition = initialPosition;
-        this.initialPosition = initialPosition;
+        this.currentDirection = "Up";
+        this.futureDirection = "Up";
     }
 
-    public Point getInitialPosition() { return this.initialPosition; }
-
-    public Point getCurrentPosition() {
-        return this.currentPosition;
+    public void setCurrentDirection(String direction) {
+        this.currentDirection = direction;
     }
 
-    public void setCurrentPosition(Point p) {
-        this.currentPosition = p;
+    public String chooseAction(GameState gameState) {
+        return this.currentDirection;
     }
 }

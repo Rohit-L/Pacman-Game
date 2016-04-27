@@ -6,15 +6,12 @@ public class Ghost extends Agent {
     private int scaredTimer;
     public final static int SCARED_TIME = 50;
     int id;
-    Point currentPosition;
-    Point initialPosition;
 
 
     public Ghost (int id, Point initialPosition) {
+        super(initialPosition);
         this.scaredTimer = 0;
         this.id = id;
-        this.currentPosition = initialPosition;
-        this.initialPosition = initialPosition;
     }
 
     public void setScaredTimer(int scaredTime) {
@@ -25,11 +22,7 @@ public class Ghost extends Agent {
         return this.scaredTimer;
     }
 
-    public Point getInitialPosition() { return this.initialPosition; }
 
-    public Point getCurrentPosition() {
-        return this.currentPosition;
-    }
 
     public void setCurrentPosition(Point p) {
         this.currentPosition = p;

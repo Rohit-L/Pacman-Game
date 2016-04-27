@@ -2,25 +2,23 @@ import java.awt.*;
 
 public class Agent {
 
-    String currentDirection;
+    protected Point currentPosition;
+    protected final Point initialPosition;
 
-    public Agent() {
-        this.currentDirection = "Up";
+    public Agent(Point initialPosition) {
+        this.currentPosition = initialPosition;
+        this.initialPosition = initialPosition;
     }
 
-    public String chooseAction(GameState gameState) {
-        return this.currentDirection;
-    }
+    public Point getInitialPosition() { return this.initialPosition; }
 
     public Point getCurrentPosition() {
-        return new Point();
+        return this.currentPosition;
     }
 
     public void setCurrentPosition(Point p) {
-
+        this.currentPosition = p;
     }
 
-    public void setCurrentDirection(String direction) {
-        this.currentDirection = direction;
-    }
+
 }
