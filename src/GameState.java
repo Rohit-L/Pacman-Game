@@ -102,6 +102,7 @@ public class GameState {
             Point point = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y);
             if (this.food.contains(point)) {
                 this.food.remove(point);
+                pacman.eatenFood += 1;
                 this.numFood -= 1;
             }
             if (this.capsules.contains(point)) {

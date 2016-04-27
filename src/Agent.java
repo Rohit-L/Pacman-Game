@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Agent {
 
-    private String currentDirection;
+    String currentDirection;
 
     public Agent() {
         this.currentDirection = "Up";

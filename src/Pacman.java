@@ -5,8 +5,10 @@ import java.awt.*;
  */
 public class Pacman extends Agent {
 
+    int eatenFood;
 
     public Pacman () {
+        this.eatenFood = 0;
     }
 
     public Point getCurrentPosition(Board board) {
