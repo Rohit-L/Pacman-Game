@@ -8,8 +8,8 @@ public class GameState {
     private int numFood;
     private int numCapsules;
     private HashSet<Point> food = new HashSet<Point>();
+    private HashSet<Point> capsules = new HashSet<Point>();
 
-    private String[][] boardArray;
     private Board board;
     private String[] walls = new String[]{"1", "2", "3", "4", "5", "6", "*", "U", "X", "L"};
 
@@ -18,58 +18,53 @@ public class GameState {
 
         StdDraw.setCanvasSize(1300, 500);
 
-        this.boardArray = new String[35][15];
-        this.board = new Board(this.boardArray);
+        this.configuration = new String[35][15];
+        this.board = new Board(this.configuration);
         board.readLayout("standardLayout.txt");
 
-        this.configuration = this.boardArray;
-        this.populateFood();
+        this.numFood = this.populateFood();
+        this.numCapsules = this.populateCapsules();
 
-        board.drawBoard();
+        this.dispay();
     }
 
     public void dispay() {
         board.drawBoard();
-        StdDraw.show(150);
+        StdDraw.show(60);
     }
 
     public void keyPressed(Agent agent, String direction) {
-        if (direction.equals("Right")) {
-            int[] pacmanCurrentPosition = this.currentPacmanPosition();
-            int[] nextPosition = new int[] {pacmanCurrentPosition[0] + 1, pacmanCurrentPosition[1]};
-            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
-                agent.currentDirection = direction;
-            }
+        Point pacmanCurrentPosition = this.currentPacmanPosition();
+        Point nextPosition = null;
+        switch (direction) {
+            case "Up":
+                nextPosition = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y + 1);
+                break;
+            case "Right":
+                nextPosition = new Point(pacmanCurrentPosition.x + 1, pacmanCurrentPosition.y);
+                break;
+            case "Down":
+                nextPosition = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y - 1);
+                break;
+            case "Left":
+                nextPosition = new Point(pacmanCurrentPosition.x - 1, pacmanCurrentPosition.y);
+                break;
+            default:
+                nextPosition = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y);
+                break;
         }
-        if (direction.equals("Left")) {
-            int[] pacmanCurrentPosition = this.currentPacmanPosition();
-            int[] nextPosition = new int[] {pacmanCurrentPosition[0] - 1, pacmanCurrentPosition[1]};
-            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
-                agent.currentDirection = direction;
-            }
+        if (!Arrays.asList(walls).contains(this.configuration[nextPosition.x][nextPosition.y])) {
+            agent.currentDirection = direction;
         }
-        if (direction.equals("Up")) {
-            int[] pacmanCurrentPosition = this.currentPacmanPosition();
-            int[] nextPosition = new int[] {pacmanCurrentPosition[0], pacmanCurrentPosition[1] + 1};
-            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
-                agent.currentDirection = direction;
-            }
-        }
-        if (direction.equals("Down")) {
-            int[] pacmanCurrentPosition = this.currentPacmanPosition();
-            int[] nextPosition = new int[] {pacmanCurrentPosition[0], pacmanCurrentPosition[1] - 1};
-            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
-                agent.currentDirection = direction;
-            }
-        }
+
         System.out.println(direction + " Key Pressed");
     }
 
-    public int[] currentPacmanPosition() {
+    public Point currentPacmanPosition() {
         for (int x = 0; x < 35; x++) {
             for (int y = 0; y < 15; y++) {
-                if (this.boardArray[x][y].equals("P")) {
-                    return new int[] {x, y};
+                if (this.configuration[x][y].equals("P")) {
+                    return new Point(x,y);
                 }
             }
         }
@@ -79,71 +74,73 @@ public class GameState {
     public void takeAction(Agent agent) {
 
         String agentAction = agent.chooseAction();
+        Point pacmanCurrentPosition = this.currentPacmanPosition();
+        Point nextPosition = null;
+        switch (agentAction) {
+            case "Up":
+                nextPosition = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y + 1);
+                break;
+            case "Right":
+                nextPosition = new Point(pacmanCurrentPosition.x + 1, pacmanCurrentPosition.y);
+                break;
+            case "Down":
+                nextPosition = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y - 1);
+                break;
+            case "Left":
+                nextPosition = new Point(pacmanCurrentPosition.x - 1, pacmanCurrentPosition.y);
+                break;
+            default:
+                nextPosition = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y);
+                break;
+        }
 
-        if (agentAction.equals("Up")) {
-            int[] pacmanCurrentPosition = this.currentPacmanPosition();
-            int[] nextPosition = new int[] {pacmanCurrentPosition[0], pacmanCurrentPosition[1] + 1};
-            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
-                Point point = new Point(pacmanCurrentPosition[0], pacmanCurrentPosition[1]);
-                if (this.food.contains(point)) {
-                    this.food.remove(point);
-                }
-                boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
-                boardArray[nextPosition[0]][nextPosition[1]] = "P";
+
+        if (!Arrays.asList(walls).contains(this.configuration[nextPosition.x][nextPosition.y])) {
+            Point point = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y);
+            if (this.food.contains(point)) {
+                this.food.remove(point);
+                this.numFood -= 1;
             }
-        }
-        if (agentAction.equals("Right")) {
-            int[] pacmanCurrentPosition = this.currentPacmanPosition();
-            int[] nextPosition = new int[] {pacmanCurrentPosition[0] + 1, pacmanCurrentPosition[1]};
-            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
-                Point point = new Point(pacmanCurrentPosition[0], pacmanCurrentPosition[1]);
-                if (this.food.contains(point)) {
-                    this.food.remove(point);
-                }
-                boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
-                boardArray[nextPosition[0]][nextPosition[1]] = "P";
+            if (this.capsules.contains(point)) {
+                this.capsules.remove(point);
+                this.numCapsules -= 1;
             }
+            configuration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = "";
+            configuration[nextPosition.x][nextPosition.y] = "P";
         }
-        if (agentAction.equals("Left")) {
-            int[] pacmanCurrentPosition = this.currentPacmanPosition();
-            int[] nextPosition = new int[] {pacmanCurrentPosition[0] - 1, pacmanCurrentPosition[1]};
-            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
-                Point point = new Point(pacmanCurrentPosition[0], pacmanCurrentPosition[1]);
-                if (this.food.contains(point)) {
-                    this.food.remove(point);
-                }
-                boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
-                boardArray[nextPosition[0]][nextPosition[1]] = "P";
-            }
-        }
-        if (agentAction.equals("Down")) {
-            int[] pacmanCurrentPosition = this.currentPacmanPosition();
-            int[] nextPosition = new int[] {pacmanCurrentPosition[0], pacmanCurrentPosition[1] - 1};
-            if (!Arrays.asList(walls).contains(this.boardArray[nextPosition[0]][nextPosition[1]])) {
-                Point point = new Point(pacmanCurrentPosition[0], pacmanCurrentPosition[1]);
-                if (this.food.contains(point)) {
-                    this.food.remove(point);
-                }
-                boardArray[pacmanCurrentPosition[0]][pacmanCurrentPosition[1]] = "";
-                boardArray[nextPosition[0]][nextPosition[1]] = "P";
-            }
-        }
+
     }
 
-    public void populateFood() {
+    public int populateFood() {
+        int totalFood = 0;
         for (int i = 0; i < this.configuration.length; i++) {
             for (int j = 0; j < this.configuration[0].length; j++) {
                 if (this.configuration[i][j].equals(".")) {
                     this.food.add(new Point(i, j));
+                    totalFood += 1;
                 }
             }
         }
+        return totalFood;
+    }
+
+    public int populateCapsules() {
+        int totalCapsules = 0;
+        for (int i = 0; i < this.configuration.length; i++) {
+            for (int j = 0; j < this.configuration[0].length; j++) {
+                if (this.configuration[i][j].equals("C")) {
+                    this.capsules.add(new Point(i, j));
+                    totalCapsules += 1;
+                }
+            }
+        }
+        return totalCapsules;
     }
 
     public String[][] deepCopyBoard() {
-        final String[][] result = new String[this.boardArray.length][];
-        for (int i = 0; i < this.boardArray.length; i++) {
-            result[i] = Arrays.copyOf(this.boardArray[i], this.boardArray[i].length);
+        final String[][] result = new String[this.configuration.length][];
+        for (int i = 0; i < this.configuration.length; i++) {
+            result[i] = Arrays.copyOf(this.configuration[i], this.configuration[i].length);
         }
         return result;
     }
@@ -155,6 +152,8 @@ public class GameState {
             }
             System.out.print("\n");
         }
+        System.out.println("Num Food Left " + numFood);
+        System.out.println("Num Capsules Left " + numCapsules);
         return "";
     }
 }
