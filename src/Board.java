@@ -153,13 +153,27 @@ public class Board {
             StdDraw.picture(g.getCurrentPosition().x + 0.5, g.getCurrentPosition().y + 0.5, "img/cop.jpg", 1.2, 1.2);
         }
 
-        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
         for (int x = xScale; x < xScale + 5; x++) {
             for (int y = 0; y < this.yScale; y++) {
                 StdDraw.filledSquare(x + .5, y + .5, .5);
+
             }
         }
+        StdDraw.setPenColor(Color.BLACK);
+        StdDraw.setPenRadius(0.1);
+        StdDraw.text(xScale + 2.5, (yScale * 4)/9, "Pellets Left: " + gameState.getNumFood());
+        StdDraw.text(xScale + 2.5, (yScale * 5)/9, "Score: " + gameState.getScore());
+        StdDraw.text(xScale + 2.5, (yScale * 6)/9, "Time Left: " + gameState.getTimeLeft());
 
+        if (gameState.getState() != null) {
+            if (gameState.getState().equals("Win")) {
+                StdDraw.text(xScale + 2.5, (yScale * 8)/9, "You Win!");
+            } else if (gameState.getState().equals("Lose")) {
+                StdDraw.text(xScale + 2.5, (yScale * 8)/9, "You Lose!");
+            }
+            StdDraw.text(xScale + 2.5, (yScale * 2)/9, "Press Y to Restart.");
+        }
 
     }
 }
