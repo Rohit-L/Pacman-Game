@@ -105,7 +105,7 @@ public class GameState {
                 this.capsules.remove(point);
                 this.numCapsules -= 1;
             }
-            configuration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = "";
+            configuration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = " ";
             configuration[nextPosition.x][nextPosition.y] = "P";
         }
 
@@ -155,5 +155,13 @@ public class GameState {
         System.out.println("Num Food Left " + numFood);
         System.out.println("Num Capsules Left " + numCapsules);
         return "";
+    }
+
+    public int getNumFood() {
+        return this.numFood;
+    }
+
+    public int getNumCapsules() {
+        return this.numCapsules;
     }
 }

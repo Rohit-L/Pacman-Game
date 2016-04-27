@@ -15,6 +15,7 @@ public class Game {
 
         GameState gameState = new GameState();
         Agent agent = new Agent();
+        System.out.println(gameState);
 
         while(true) {
 
@@ -34,6 +35,11 @@ public class Game {
 
             gameState.takeAction(agent);
             gameState.dispay();
+
+            if (gameState.getNumFood() == 0) {
+                System.out.println(gameState);
+                break;
+            }
         }
     }
 }
