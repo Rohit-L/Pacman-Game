@@ -31,7 +31,7 @@ public class Game {
 
             gameState.takeAction();
             gameState.display();
-
+            System.out.println(gameState.getScore());
             /* End Game Conditions */
             if (gameState.getTimeLeft() == 0) {
                 System.out.println(gameState);

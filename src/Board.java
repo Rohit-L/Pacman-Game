@@ -88,8 +88,7 @@ public class Board {
         for (int x = 0; x < this.xScale; x++) {
             for (int y = 0; y < this.yScale; y++) {
 
-                if ((x + y) % 2 == 0) StdDraw.setPenColor(StdDraw.BLACK);
-                else StdDraw.setPenColor(StdDraw.BLACK);
+                StdDraw.setPenColor(StdDraw.BLACK);
                 StdDraw.filledSquare(x + .5, y + .5, .5);
                 StdDraw.setPenColor(StdDraw.RED);
                 StdDraw.setPenRadius(0.01);

@@ -17,7 +17,6 @@ public class Directions {
     }
 
     public void next(Point p, String direction) {
-        System.out.println(direction);
         p.translate(dirToShift.get(direction)[0], dirToShift.get(direction)[1]);
     }
 }

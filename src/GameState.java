@@ -84,6 +84,7 @@ public class GameState {
         System.out.println("Num Capsules Left " + numCapsules);
         System.out.println("Time Left " + timeLeft);
         System.out.println("Pacman Position" + this.pacman.getCurrentPosition());
+        System.out.println("Score " + this.score);
         return "";
     }
 
@@ -104,7 +105,7 @@ public class GameState {
             if (this.food.contains(point)) {
                 this.food.remove(point);
                 this.pacman.eatenFood += 1;
-                this.score += 10;
+                this.score += 5;
                 this.numFood -= 1;
             }
 
@@ -211,6 +212,8 @@ public class GameState {
     public Point getPacmanPosition() {
         return this.pacman.getCurrentPosition();
     }
+
+    public int getScore() { return this.score; }
 
     public ArrayList<String> getLegalActions(Point positiion) {
         String[] possibleActions = new String[]{"Up", "Down", "Left", "Right"};
