@@ -54,13 +54,14 @@ public class GameState {
     }
 
     public void keyPressed(String direction) {
-        Point pacmanCurrentPosition = this.pacman.getCurrentPosition();
-        Point nextPosition = new Point(pacmanCurrentPosition);
-        dir.next(nextPosition, direction);
-
-        if (!this.walls.contains(nextPosition)) {
-            this.pacman.setCurrentDirection(direction);
-        }
+//        Point pacmanCurrentPosition = this.pacman.getCurrentPosition();
+//        Point nextPosition = new Point(pacmanCurrentPosition);
+//        dir.next(nextPosition, direction);
+//
+//        if (!this.walls.contains(nextPosition)) {
+//            this.pacman.setCurrentDirection(direction);
+//        }
+        this.pacman.setFutureDirection(direction);
     }
 
     public void takeAction() {
@@ -92,33 +93,38 @@ public class GameState {
 
 
     private void executePacmanTurn() {
-        String agentAction = this.pacman.chooseAction(this);
+        ArrayList<String> agentActions = this.pacman.chooseAction(this);
         Point pacmanCurrentPosition = this.pacman.getCurrentPosition();
         Point nextPosition = new Point(pacmanCurrentPosition);
-        dir.next(nextPosition, agentAction);
+        dir.next(nextPosition, agentActions.get(0));
 
+        if (this.walls.contains(nextPosition)) {
+            nextPosition = new Point(pacmanCurrentPosition);
+            dir.next(nextPosition, agentActions.get(1));
+        } else {
+            this.pacman.setCurrentDirection(agentActions.get(0));
+        }
 
         if (!this.walls.contains(nextPosition)) {
-            Point point = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y);
             boolean ghostDeath = false;
             boolean pacmanDeath = false;
 
             /* Check for eaten food */
-            if (this.food.contains(point)) {
-                this.food.remove(point);
+            if (this.food.contains(nextPosition)) {
+                this.food.remove(nextPosition);
                 this.pacman.eatenFood += 1;
                 this.score += 5;
                 this.numFood -= 1;
             }
 
             /* Check for eaten capsule */
-            if (this.capsules.contains(point)) {
+            if (this.capsules.contains(nextPosition)) {
                 if (!this.capsuleActive) {
                     this.capsuleActive = true;
                     this.ghosts.get(0).setScaredTimer(Ghost.SCARED_TIME);
                     this.ghosts.get(1).setScaredTimer(Ghost.SCARED_TIME);
                 }
-                this.capsules.remove(point);
+                this.capsules.remove(nextPosition);
                 this.numCapsules -= 1;
             }
 

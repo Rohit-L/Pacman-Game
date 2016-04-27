@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Pacman extends Agent {
 
@@ -17,7 +18,15 @@ public class Pacman extends Agent {
         this.currentDirection = direction;
     }
 
-    public String chooseAction(GameState gameState) {
-        return this.currentDirection;
+    public void setFutureDirection(String direction) {
+        this.futureDirection = direction;
     }
+
+    public ArrayList<String> chooseAction(GameState gameState) {
+        ArrayList<String> actions = new ArrayList<String>();
+        actions.add(this.futureDirection);
+        actions.add(this.currentDirection);
+        return actions;
+    }
+
 }

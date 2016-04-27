@@ -5,7 +5,9 @@ public class Game {
     private static HashMap<String, Integer> keyBindings = new HashMap<String, Integer>();
 
     public static void playGame(GameState gameState) {
+
         while(true) {
+
             if (gameState.getState() != null) {
                 System.out.println("game over");
                 gameState.display();
