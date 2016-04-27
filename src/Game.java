@@ -12,7 +12,6 @@ public class Game {
         keyBindings.put("Down", 40);
 
         GameState gameState = new GameState();
-        System.out.println(gameState);
 
         while(true) {
 
@@ -33,6 +32,7 @@ public class Game {
             gameState.takeAction();
             gameState.display();
 
+            /* End Game Conditions */
             if (gameState.getTimeLeft() == 0) {
                 System.out.println(gameState);
                 System.out.println("YOU LOSE LOSER");

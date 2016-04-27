@@ -8,7 +8,7 @@ public class Agent {
         this.currentDirection = "Up";
     }
 
-    public String chooseAction() {
+    public String chooseAction(GameState gameState) {
         return this.currentDirection;
     }
 

@@ -1,8 +1,5 @@
 import java.awt.*;
 
-/**
- * Created by Monu on 4/26/16.
- */
 public class Pacman extends Agent {
 
     int eatenFood;

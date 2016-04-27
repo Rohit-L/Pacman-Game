@@ -1,8 +1,5 @@
 import java.awt.*;
 
-/**
- * Created by Monu on 4/26/16.
- */
 public class Ghost extends Agent {
 
     private int scaredTimer;
@@ -34,4 +31,11 @@ public class Ghost extends Agent {
     }
 
     //Subtract ghost timer
+    public String chooseAction(GameState gameState) {
+        Point pacmanPosition = gameState.getPacmanPosition();
+        if (this.scaredTimer > 0) {
+            this.scaredTimer -= 1;
+        }
+        return "Up";
+    }
 }

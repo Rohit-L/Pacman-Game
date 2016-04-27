@@ -6,6 +6,7 @@ import java.util.HashSet;
 public class GameState {
 
     String[][] configuration;
+    private int agentTurn;
     private int numFood;
     private int numCapsules;
     private int timeLeft;
@@ -22,7 +23,6 @@ public class GameState {
     private Board board;
     private String[] walls = new String[]{"1", "2", "3", "4", "5", "6", "*", "U", "X", "L"};
 
-
     public GameState() {
 
         StdDraw.setCanvasSize(1300, 500);
@@ -31,6 +31,7 @@ public class GameState {
         this.board = new Board(this.configuration);
         board.readLayout("standardLayout.txt");
 
+        this.agentTurn = 0;
         this.numFood = this.populateFood();
         this.numCapsules = this.populateCapsules();
         this.timeLeft = START_TIME;
@@ -43,7 +44,6 @@ public class GameState {
         this.setInitialPositions();
         this.dir = new Directions();
         this.display();
-
     }
 
     private void setInitialPositions() {
@@ -52,8 +52,7 @@ public class GameState {
                 if (this.configuration[x][y].equals("P")) {
                     this.agentConfiguration[x][y] = this.pacman;
                     this.pacman.setCurrentPosition(new Point(x,y));
-                }
-                else if (this.configuration[x][y].equals("G")) {
+                } else if (this.configuration[x][y].equals("G")) {
                     if (this.ghosts.get(0).getCurrentPosition() == null) {
                         this.agentConfiguration[x][y] = this.ghosts.get(0);
                         this.ghosts.get(0).setCurrentPosition(new Point(x, y));
@@ -81,86 +80,15 @@ public class GameState {
         if (!Arrays.asList(walls).contains(this.configuration[nextPosition.x][nextPosition.y])) {
             this.pacman.setCurrentDirection(direction);
         }
-
-        System.out.println(direction + " Key Pressed");
     }
 
     public void takeAction() {
-
-        String agentAction = this.pacman.chooseAction();
-        Point pacmanCurrentPosition = this.pacman.getCurrentPosition();
-        Point nextPosition = new Point(pacmanCurrentPosition);
-        dir.next(nextPosition, agentAction);
-        for (Ghost ghost: this.ghosts) {
-            if (ghost.getScaredTimer() > 0) {
-                ghost.setScaredTimer(ghost.getScaredTimer() - 1);
-            }
+        if (agentTurn % 3 == 0) {
+            executePacmanTurn();
+        } else {
+            executeGhostTurn(agentTurn);
         }
-
-        if (!Arrays.asList(walls).contains(this.configuration[nextPosition.x][nextPosition.y])) {
-            Point point = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y);
-            boolean ghostDeath = false;
-            boolean pacmanDeath = false;
-            if (this.food.contains(point)) {
-                this.food.remove(point);
-                pacman.eatenFood += 1;
-                this.numFood -= 1;
-            }
-            if (this.capsules.contains(point)) {
-                if (!this.capsuleActive) {
-                    this.capsuleActive = true;
-                    this.ghosts.get(0).setScaredTimer(Ghost.SCARED_TIME);
-                    this.ghosts.get(1).setScaredTimer(Ghost.SCARED_TIME);
-                }
-                this.capsules.remove(point);
-                this.numCapsules -= 1;
-            }
-
-            for (Ghost ghost: this.ghosts) {
-                if (ghost.getCurrentPosition().equals(nextPosition)) {
-                    if (ghost.getScaredTimer() > 0) {
-                        System.out.println("OOH");
-                        this.configuration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = " ";
-                        this.configuration[nextPosition.x][nextPosition.y] = "P";
-                        this.configuration[1][1] = "G";
-                        ghost.setCurrentPosition(new Point(1,1));
-                        this.pacman.setCurrentPosition(nextPosition);
-                        this.agentConfiguration[1][1] = ghost;
-                        this.agentConfiguration[nextPosition.x][nextPosition.y] = this.pacman;
-                        this.agentConfiguration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = null;
-                        ghost.setScaredTimer(0);
-                        ghostDeath = true;
-                        break;
-                    } else {
-                        System.out.println("AHH");
-                        this.configuration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = " ";
-                        this.configuration[1][1] = "P";
-                        this.pacman.setCurrentPosition(new Point(1,1));
-                        this.agentConfiguration[1][1] = this.pacman;
-                        this.agentConfiguration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = null;
-                        pacmanDeath = true;
-                        break;
-                    }
-                }
-            }
-            if (!pacmanDeath && !ghostDeath) {
-                this.configuration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = " ";
-                this.configuration[nextPosition.x][nextPosition.y] = "P";
-                this.pacman.setCurrentPosition(nextPosition);
-                this.agentConfiguration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = null;
-                this.agentConfiguration[nextPosition.x][nextPosition.y] = this.pacman;
-            }
-
-
-
-        }
-
-        if (ghosts.get(0).getScaredTimer() == 0 && ghosts.get(1).getScaredTimer() == 1) {
-            this.capsuleActive = false;
-        }
-
-        this.timeLeft -= 1;
-
+        agentTurn += 1;
     }
 
     public int populateFood() {
@@ -222,5 +150,143 @@ public class GameState {
 
     public int getTimeLeft() {
         return this.timeLeft;
+    }
+
+    public Point getPacmanPosition() {
+        return this.pacman.getCurrentPosition();
+    }
+
+    private void executePacmanTurn() {
+        String agentAction = this.pacman.chooseAction(this);
+        Point pacmanCurrentPosition = this.pacman.getCurrentPosition();
+        Point nextPosition = new Point(pacmanCurrentPosition);
+        dir.next(nextPosition, agentAction);
+
+
+        if (!Arrays.asList(walls).contains(this.configuration[nextPosition.x][nextPosition.y])) {
+            Point point = new Point(pacmanCurrentPosition.x, pacmanCurrentPosition.y);
+            boolean ghostDeath = false;
+            boolean pacmanDeath = false;
+
+            /* Check for eaten food */
+            if (this.food.contains(point)) {
+                this.food.remove(point);
+                pacman.eatenFood += 1;
+                this.numFood -= 1;
+            }
+
+            /* Check for eaten capsule */
+            if (this.capsules.contains(point)) {
+                if (!this.capsuleActive) {
+                    this.capsuleActive = true;
+                    this.ghosts.get(0).setScaredTimer(Ghost.SCARED_TIME);
+                    this.ghosts.get(1).setScaredTimer(Ghost.SCARED_TIME);
+                }
+                this.capsules.remove(point);
+                this.numCapsules -= 1;
+            }
+
+            for (Ghost ghost: this.ghosts) {
+                if (ghost.getCurrentPosition().equals(nextPosition)) {
+                    if (ghost.getScaredTimer() > 0) {
+
+                        this.configuration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = "";
+                        this.configuration[nextPosition.x][nextPosition.y] = "P";
+                        this.configuration[1][1] = "G";
+                        ghost.setCurrentPosition(new Point(1,1));
+                        this.pacman.setCurrentPosition(nextPosition);
+                        this.agentConfiguration[1][1] = ghost;
+                        this.agentConfiguration[nextPosition.x][nextPosition.y] = this.pacman;
+                        this.agentConfiguration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = null;
+                        ghost.setScaredTimer(0);
+                        ghostDeath = true;
+                        break;
+                    } else {
+
+                        this.configuration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = "";
+                        this.configuration[1][1] = "P";
+                        this.pacman.setCurrentPosition(new Point(1,1));
+                        this.agentConfiguration[1][1] = this.pacman;
+                        this.agentConfiguration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = null;
+                        pacmanDeath = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!pacmanDeath && !ghostDeath) {
+                this.configuration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = "";
+                this.configuration[nextPosition.x][nextPosition.y] = "P";
+                this.pacman.setCurrentPosition(nextPosition);
+                this.agentConfiguration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = null;
+                this.agentConfiguration[nextPosition.x][nextPosition.y] = this.pacman;
+            }
+
+        }
+
+        this.timeLeft -= 1;
+    }
+
+    private void executeGhostTurn(int agentTurn) {
+        Ghost ghost = this.ghosts.get(agentTurn % 3 - 1);
+        String ghostAction = ghost.chooseAction(this);
+        Point ghostCurrentPosition = ghost.getCurrentPosition();
+        Point pacmanCurrentPosition = this.pacman.getCurrentPosition();
+
+        Point nextPosition = new Point(ghostCurrentPosition);
+        dir.next(nextPosition, ghostAction);
+
+        if (!Arrays.asList(walls).contains(this.configuration[nextPosition.x][nextPosition.y])) {
+            Point point = new Point(ghostCurrentPosition.x, ghostCurrentPosition.y);
+            boolean ghostDeath = false;
+            boolean pacmanDeath = false;
+
+            if (pacmanCurrentPosition.equals(nextPosition)) {
+                if (ghost.getScaredTimer() == 0) {
+
+                    /* Move the ghost to its new location */
+                    this.configuration[ghostCurrentPosition.x][ghostCurrentPosition.y] = "";
+                    this.configuration[nextPosition.x][nextPosition.y] = "G";
+                    this.agentConfiguration[ghostCurrentPosition.x][ghostCurrentPosition.y] = null;
+                    this.agentConfiguration[nextPosition.x][nextPosition.y] = ghost;
+                    ghost.setCurrentPosition(new Point(nextPosition.x, nextPosition.y));
+
+                    /* Reset Pacman to the initial location */
+                    this.configuration[1][1] = "P";
+                    this.pacman.setCurrentPosition(new Point(1,1));
+                    ghost.setCurrentPosition(nextPosition);
+                    this.agentConfiguration[1][1] = this.pacman;
+                    this.agentConfiguration[nextPosition.x][nextPosition.y] = ghost;
+                    this.agentConfiguration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = null;
+                    pacmanDeath = true;
+
+                } else {
+
+                    /* Ghost is scared and runs into pacman */
+                    this.configuration[ghostCurrentPosition.x][ghostCurrentPosition.y] = "";
+                    this.configuration[1][1] = "G";
+                    ghost.setCurrentPosition(new Point(1,1));
+                    this.agentConfiguration[1][1] = ghost;
+                    this.agentConfiguration[ghostCurrentPosition.x][ghostCurrentPosition.y] = null;
+                    ghost.setScaredTimer(0);
+                    ghostDeath = true;
+                }
+            }
+
+
+            if (!pacmanDeath && !ghostDeath) {
+                this.configuration[ghostCurrentPosition.x][ghostCurrentPosition.y] = "";
+                this.configuration[nextPosition.x][nextPosition.y] = "G";
+                ghost.setCurrentPosition(nextPosition);
+                this.agentConfiguration[ghostCurrentPosition.x][ghostCurrentPosition.y] = null;
+                this.agentConfiguration[nextPosition.x][nextPosition.y] = ghost;
+            }
+
+        }
+
+        if (ghosts.get(0).getScaredTimer() == 0 && ghosts.get(1).getScaredTimer() == 0) {
+            this.capsuleActive = false;
+        }
+
     }
 }
