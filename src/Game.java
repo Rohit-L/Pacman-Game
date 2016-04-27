@@ -21,23 +21,29 @@ public class Game {
 
             /* Mouse Click */
             if (StdDraw.isKeyPressed(keyBindings.get("Left"))) {
-                gameState.keyPressed(pacman, "Left");
+                gameState.keyPressed("Left");
             }
             if (StdDraw.isKeyPressed(keyBindings.get("Right"))) {
-                gameState.keyPressed(pacman, "Right");
+                gameState.keyPressed("Right");
             }
             if (StdDraw.isKeyPressed(keyBindings.get("Up"))) {
-                gameState.keyPressed(pacman, "Up");
+                gameState.keyPressed("Up");
             }
             if (StdDraw.isKeyPressed(keyBindings.get("Down"))) {
-                gameState.keyPressed(pacman, "Down");
+                gameState.keyPressed("Down");
             }
 
-            gameState.takeAction(pacman);
+            gameState.takeAction();
             gameState.display();
 
+            if (gameState.getTimeLeft() == 0) {
+                System.out.println(gameState);
+                System.out.println("YOU LOSE LOSER");
+                break;
+            }
             if (gameState.getNumFood() == 0) {
                 System.out.println(gameState);
+                System.out.println("YOU WON");
                 break;
             }
         }

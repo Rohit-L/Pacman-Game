@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -8,9 +9,13 @@ public class GameState {
     private int numFood;
     private int numCapsules;
     private int timeLeft;
+    private boolean capsuleActive;
     private HashSet<Point> food = new HashSet<Point>();
     private HashSet<Point> capsules = new HashSet<Point>();
-    private static int START_TIME = 200;
+    private static int START_TIME = 600;
+    private int capsuleTimer;
+    private Pacman pacman;
+    private ArrayList<Ghost> ghosts = new ArrayList<Ghost>();
 
     private Board board;
     private String[] walls = new String[]{"1", "2", "3", "4", "5", "6", "*", "U", "X", "L"};
@@ -27,6 +32,11 @@ public class GameState {
         this.numFood = this.populateFood();
         this.numCapsules = this.populateCapsules();
         this.timeLeft = START_TIME;
+        this.capsuleActive = false;
+        this.capsuleTimer = 0;
+        this.pacman = new Pacman();
+        this.ghosts.add(new Ghost());
+        this.ghosts.add(new Ghost());
 
         this.display();
 
@@ -37,8 +47,8 @@ public class GameState {
         StdDraw.show(60);
     }
 
-    public void keyPressed(Agent agent, String direction) {
-        Point pacmanCurrentPosition = agent.getCurrentPosition(this.board);
+    public void keyPressed(String direction) {
+        Point pacmanCurrentPosition = this.pacman.getCurrentPosition(this.board);
         Point nextPosition = null;
         switch (direction) {
             case "Up":
@@ -58,16 +68,16 @@ public class GameState {
                 break;
         }
         if (!Arrays.asList(walls).contains(this.configuration[nextPosition.x][nextPosition.y])) {
-            agent.setCurrentDirection(direction);
+            this.pacman.setCurrentDirection(direction);
         }
 
         System.out.println(direction + " Key Pressed");
     }
 
-    public void takeAction(Agent agent) {
+    public void takeAction() {
 
-        String agentAction = agent.chooseAction();
-        Point pacmanCurrentPosition = agent.getCurrentPosition(this.board);
+        String agentAction = this.pacman.chooseAction();
+        Point pacmanCurrentPosition = this.pacman.getCurrentPosition(this.board);
         Point nextPosition = null;
         switch (agentAction) {
             case "Up":
@@ -95,12 +105,25 @@ public class GameState {
                 this.numFood -= 1;
             }
             if (this.capsules.contains(point)) {
+                if (!this.capsuleActive) {
+                    this.capsuleActive = true;
+                    this.ghosts.get(0).setScaredTimer(Ghost.SCARED_TIME);
+                    this.ghosts.get(1).setScaredTimer(Ghost.SCARED_TIME);
+                }
                 this.capsules.remove(point);
                 this.numCapsules -= 1;
             }
             configuration[pacmanCurrentPosition.x][pacmanCurrentPosition.y] = " ";
             configuration[nextPosition.x][nextPosition.y] = "P";
         }
+
+        for (Ghost ghost: this.ghosts) {
+            if (ghost.getScaredTimer() == 0) {
+                this.capsuleActive = false;
+            }
+        }
+
+        this.timeLeft -= 1;
 
     }
 
@@ -147,6 +170,7 @@ public class GameState {
         }
         System.out.println("Num Food Left " + numFood);
         System.out.println("Num Capsules Left " + numCapsules);
+        System.out.println("Time Left " + timeLeft);
         return "";
     }
 

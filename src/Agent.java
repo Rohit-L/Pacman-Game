@@ -3,7 +3,6 @@ import java.awt.*;
 public class Agent {
 
     private String currentDirection;
-    protected static int SCARED_TIME = 20;
 
     public Agent() {
         this.currentDirection = "Up";
