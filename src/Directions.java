@@ -13,6 +13,7 @@ public class Directions {
         dirToShift.put("Right", new Integer[]{1, 0});
         dirToShift.put("Up", new Integer[]{0, 1});
         dirToShift.put("Down", new Integer[]{0, -1});
+        dirToShift.put("Stop", new Integer[]{0, 0});
 
     }
 

@@ -86,6 +86,7 @@ public class GameState {
 //    }
 
     public String toString() {
+        System.out.println("Lives Left " + livesLeft);
         System.out.println("Num Food Left " + numFood);
         System.out.println("Num Capsules Left " + numCapsules);
         System.out.println("Time Left " + timeLeft);
@@ -244,7 +245,7 @@ public class GameState {
     public void setState(String state) { this.state = state; }
 
     public ArrayList<String> getLegalActions(Point positiion) {
-        String[] possibleActions = new String[]{"Up", "Down", "Left", "Right"};
+        String[] possibleActions = new String[]{"Up", "Down", "Left", "Right", "Stop"};
         ArrayList<String> legalActions = new ArrayList<String>();
         for (String action: possibleActions) {
             Point nextPosition = new Point(positiion);
