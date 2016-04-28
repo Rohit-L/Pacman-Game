@@ -3,6 +3,7 @@ import java.util.HashMap;
 public class Game {
 
     private static HashMap<String, Integer> keyBindings = new HashMap<String, Integer>();
+    private static String layout = "standardLayout.txt";
 
     public static void playGame(GameState gameState) {
 
@@ -11,7 +12,7 @@ public class Game {
             if (gameState.getState() != null) {
                 System.out.println("game over");
                 gameState.display();
-                Game.endGame(gameState);
+                Game.endGame();
                 return;
             }
 
@@ -43,13 +44,13 @@ public class Game {
 
     }
 
-    public static void endGame(GameState gameState) {
+    public static void endGame() {
         long start = System.currentTimeMillis();
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 if (StdDraw.nextKeyTyped() == 'y') {
                     Game.clearKeyCache();
-                    GameState newGameState = new GameState();
+                    GameState newGameState = new GameState(layout);
                     Game.playGame(newGameState);
                 }
                 return;
@@ -79,7 +80,7 @@ public class Game {
         keyBindings.put("Up", 38);
         keyBindings.put("Down", 40);
 
-        GameState gameState = new GameState();
+        GameState gameState = new GameState(layout);
         Game.playGame(gameState);
 
         System.out.println("GAME IS ACTUALLY OVER");

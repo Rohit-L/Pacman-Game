@@ -23,11 +23,11 @@ public class GameState {
     private String state;
     private int livesLeft;
 
-    public GameState() {
+    public GameState(String layout) {
 
         StdDraw.setCanvasSize(1300, 500);
         this.board = new Board();
-        HashMap<String, ArrayList<Point>> allElems = board.readLayout("fastCaptureLayout.txt");
+        HashMap<String, ArrayList<Point>> allElems = board.readLayout(layout);
         this.food = new HashSet<>(allElems.get("Food"));
         this.capsules = new HashSet<>(allElems.get("Capsules"));
         this.walls = new HashSet<>(allElems.get("Walls"));
