@@ -27,7 +27,7 @@ public class GameState {
 
         StdDraw.setCanvasSize(1300, 500);
         this.board = new Board();
-        HashMap<String, ArrayList<Point>> allElems = board.readLayout("standardLayout.txt");
+        HashMap<String, ArrayList<Point>> allElems = board.readLayout("fastCaptureLayout.txt");
         this.food = new HashSet<>(allElems.get("Food"));
         this.capsules = new HashSet<>(allElems.get("Capsules"));
         this.walls = new HashSet<>(allElems.get("Walls"));
