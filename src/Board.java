@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Board {
 
@@ -19,6 +20,7 @@ public class Board {
         this.xScale = 35;
         this.yScale = 15;
 
+
         StdDraw.setCanvasSize(1300, 500);
     }
 
@@ -31,8 +33,13 @@ public class Board {
             ArrayList<Point> food = new ArrayList<>();
             ArrayList<Point> capsules = new ArrayList<>();
             ArrayList<Point> walls = new ArrayList<>();
+            ArrayList<Point> cherries = new ArrayList<>();
             FileReader fileReader = new FileReader("layouts/" + layout);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
+            double rand = Math.random();
+            Random r = new Random();
+            int randX = r.nextInt(xScale);
+            int randY = r.nextInt(yScale);
             int index = 0;
             while((line = bufferedReader.readLine()) != null) {
                 String[] lineArr = line.split("(?!^)");
@@ -58,11 +65,19 @@ public class Board {
 
                 index += 1;
             }
+            if (rand >= 0.7) {
+                if (this.wallArray[randX][this.yScale - randY - 1] == null) {
+                    cherries.add(new Point(randX, this.yScale - randY - 1));
+                } else {
+                    System.out.println("Cherry was placed on wall.");
+                }
+            }
             allElems.put("Walls", walls);
             allElems.put("Pacman", pacman);
             allElems.put("Ghosts", ghosts);
             allElems.put("Food", food);
             allElems.put("Capsules", capsules);
+            allElems.put("Cherries", cherries);
 
             bufferedReader.close();
         } catch(FileNotFoundException ex) {
@@ -140,6 +155,11 @@ public class Board {
         for (Point c: gameState.getCapsules()) {
             StdDraw.setPenColor(StdDraw.WHITE);
             StdDraw.filledCircle(c.x + 0.5, c.y + 0.5, .32);
+        }
+
+        for (Point ch: gameState.getCherries()) {
+            StdDraw.picture(ch.x + 0.5, ch.y + 0.5, "img/cherry.png", 1.2, 1.2);
+
         }
 
         // Pacman

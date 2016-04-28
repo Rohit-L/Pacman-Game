@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class Game {
 
@@ -46,6 +47,7 @@ public class Game {
 
     public static void endGame() {
         long start = System.currentTimeMillis();
+        Game.clearKeyCache();
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 if (StdDraw.nextKeyTyped() == 'y') {
@@ -68,8 +70,12 @@ public class Game {
     public static void clearKeyCache() {
         char key = 'a';
         while (StdDraw.hasNextKeyTyped()) {
-            key = StdDraw.nextKeyTyped();
-            System.out.println(StdDraw.nextKeyTyped());
+            try {
+                key = StdDraw.nextKeyTyped();
+                System.out.println(key);
+            } catch (NoSuchElementException e) {
+                e.printStackTrace();
+            }
         }
     }
 

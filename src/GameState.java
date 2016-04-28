@@ -12,6 +12,7 @@ public class GameState {
     private HashSet<Point> food;
     private HashSet<Point> capsules;
     private HashSet<Point> walls;
+    private HashSet<Point> cherries;
     private int numFood;
     private Directions dir;
     private Board board;
@@ -31,6 +32,7 @@ public class GameState {
         this.food = new HashSet<>(allElems.get("Food"));
         this.capsules = new HashSet<>(allElems.get("Capsules"));
         this.walls = new HashSet<>(allElems.get("Walls"));
+        this.cherries = new HashSet<>(allElems.get("Cherries"));
         this.pacman = new Pacman(allElems.get("Pacman").get(0));
         for (int i = 0; i < allElems.get("Ghosts").size(); i++) {
             this.ghosts.add(new Ghost(i + 1, allElems.get("Ghosts").get(i)));
@@ -137,6 +139,13 @@ public class GameState {
                 this.numCapsules -= 1;
             }
 
+            /* Check if on cherry */
+            if (this.cherries.contains(nextPosition)) {
+                this.livesLeft += 1;
+                this.score += 10;
+                this.cherries.remove(nextPosition);
+            }
+
             for (Ghost ghost: this.ghosts) {
                 if (ghost.getCurrentPosition().equals(nextPosition)) {
                     if (ghost.getScaredTimer() > 0) { //ghost is scared, dies
@@ -236,6 +245,8 @@ public class GameState {
     public HashSet<Point> getFood() { return this.food; }
 
     public HashSet<Point> getCapsules() { return this.capsules; }
+
+    public HashSet<Point> getCherries() { return this.cherries; }
 
     public Point getPacmanPosition() {
         return this.pacman.getCurrentPosition();
