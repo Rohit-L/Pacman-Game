@@ -6,6 +6,7 @@ import java.util.HashSet;
 public class GameState {
 
     private static int START_TIME = 1000;
+    private static int NUM_LIVES = 3;
     private Pacman pacman;
     private ArrayList<Ghost> ghosts = new ArrayList<>();
     private HashSet<Point> food;
@@ -20,6 +21,7 @@ public class GameState {
     private boolean capsuleActive;
     private int score;
     private String state;
+    private int livesLeft;
 
     public GameState() {
 
@@ -41,6 +43,7 @@ public class GameState {
         this.timeLeft = START_TIME;
         this.capsuleActive = false;
         this.state = null;
+        this.livesLeft = NUM_LIVES;
 
 
         this.dir = new Directions();
@@ -140,6 +143,7 @@ public class GameState {
                         this.pacman.setCurrentPosition(this.pacman.getInitialPosition());
                         pacmanDeath = true;
                         this.score -= 10;
+                        this.livesLeft -= 1;
                         break;
                     }
                 }
@@ -179,6 +183,7 @@ public class GameState {
                     /* Reset Pacman to the initial location */
                     this.pacman.setCurrentPosition(this.pacman.getInitialPosition());
                     this.score -= 10;
+                    this.livesLeft -= 1;
                     pacmanDeath = true;
 
                 } else {
@@ -229,6 +234,8 @@ public class GameState {
     public Point getPacmanPosition() {
         return this.pacman.getCurrentPosition();
     }
+
+    public int getLivesLeft() { return this.livesLeft; }
 
     public int getScore() { return this.score; }
 

@@ -176,6 +176,7 @@ public class Board {
         StdDraw.text(xScale + 2.5, (yScale * 6)/9, "Time Left: " + gameState.getTimeLeft());
 
         if (gameState.getState() == null) {
+            StdDraw.text(xScale + 2.5, (yScale * 7.5)/9, "Lives Left: " + gameState.getLivesLeft());
             StdDraw.text(xScale + 2.5, (yScale * 1.5)/9, "Red Scared Timer:");
             StdDraw.text(xScale + 2.5, (yScale * 1.1)/9, "" + gameState.getGhosts().get(0).getScaredTimer());
             StdDraw.text(xScale + 2.5, (yScale * 2.5)/9, "Pink Scared Timer:");
