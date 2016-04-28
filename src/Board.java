@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Board {
 
@@ -145,9 +144,23 @@ public class Board {
 
         // Pacman
         Pacman p = gameState.getPacman();
-//        StdDraw.setPenColor(StdDraw.YELLOW);
-//        StdDraw.filledCircle(p.getCurrentPosition().x + 0.5, p.getCurrentPosition().y + 0.5, 0.49);
-        StdDraw.picture(p.getCurrentPosition().x + 0.5, p.getCurrentPosition().y + 0.5, "img/pacman.jpg", 1.2, 1.2);
+        String direction = p.getCurrentDirection();
+        int rotation = 0;
+        switch (direction) {
+            case "Up":
+                rotation = 90;
+                break;
+            case "Down":
+                rotation = 270;
+                break;
+            case "Left":
+                rotation = 180;
+                break;
+            case "Right":
+                rotation = 0;
+                break;
+        }
+        StdDraw.picture(p.getCurrentPosition().x + 0.5, p.getCurrentPosition().y + 0.5, "img/pacman.jpg", 1.2, 1.2, rotation);
 
         // Ghosts
         for (Ghost g: gameState.getGhosts()) {

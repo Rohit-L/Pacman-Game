@@ -22,6 +22,10 @@ public class Pacman extends Agent {
         this.futureDirection = direction;
     }
 
+    public String getCurrentDirection() {
+        return this.currentDirection;
+    }
+
     public ArrayList<String> chooseAction(GameState gameState) {
         ArrayList<String> actions = new ArrayList<String>();
         actions.add(this.futureDirection);
