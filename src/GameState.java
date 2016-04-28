@@ -53,7 +53,7 @@ public class GameState {
 
     public void display() {
         board.drawBoard(this);
-        StdDraw.show(60);
+        StdDraw.show(45);
     }
 
     public void keyPressed(String direction) {
