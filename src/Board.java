@@ -71,6 +71,14 @@ public class Board {
                 } else {
                     System.out.println("Cherry was placed on wall.");
                 }
+
+                if (rand >= 0.95) {
+                    if (this.wallArray[randX][randY] == null) {
+                        cherries.add(new Point(randX, randY));
+                    } else {
+                        System.out.println("Second cherry was placed on wall. SUCKS");
+                    }
+                }
             }
             allElems.put("Walls", walls);
             allElems.put("Pacman", pacman);
