@@ -105,6 +105,11 @@ public class GameState {
         if (this.walls.contains(nextPosition)) {
             nextPosition = new Point(pacmanCurrentPosition);
             dir.next(nextPosition, agentActions.get(1));
+        } else if (Ghost.ghostHomes.contains(nextPosition)) {
+            nextPosition = new Point(pacmanCurrentPosition);
+            dir.next(nextPosition, "Up");
+            this.pacman.setCurrentDirection("Up");
+            this.pacman.setFutureDirection("Up");
         } else {
             this.pacman.setCurrentDirection(agentActions.get(0));
         }

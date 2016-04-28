@@ -1,15 +1,18 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Ghost extends Agent {
 
     private int scaredTimer;
     public final static int SCARED_TIME = 50;
+    public static HashSet<Point> ghostHomes = new HashSet<>();
     int id;
 
 
     public Ghost (int id, Point initialPosition) {
         super(initialPosition);
+        ghostHomes.add(initialPosition);
         this.scaredTimer = 0;
         this.id = id;
     }
