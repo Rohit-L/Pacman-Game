@@ -7,14 +7,40 @@ public class Game {
     private static String layout = "standardLayout.txt";
 
     public static void playGame(GameState gameState) {
-
+        boolean pause = false;
         while(true) {
+            if (StdDraw.hasNextKeyTyped()) {
+                if (StdDraw.nextKeyTyped() == 'p') {
+                    Game.clearKeyCache();
+                    System.out.println("P is pressed");
+                    if (gameState.getState() == null) {
+                        pause = true;
+                    } else if (gameState.getState().equals("Pause")) {
+                        pause = false;
+                    }
+                }
+            }
+            if (pause) { gameState.setState("Pause"); }
+            if (!pause) { gameState.setState(null); }
+
+            /* End Game Conditions */
+            if (gameState.getTimeLeft() == 0 || gameState.getScore() <= -50 || gameState.getLivesLeft() == 0) {
+                gameState.setState("Lose");
+            }
+            if (gameState.getNumFood() == 0) {
+                gameState.setState("Win");
+            }
 
             if (gameState.getState() != null) {
-                System.out.println("game over");
-                gameState.display();
-                Game.endGame();
-                return;
+                if (gameState.getState().equals("Pause")) {
+                    gameState.pause();
+                    continue;
+                } else {
+                    System.out.println("game over");
+                    gameState.display();
+                    Game.endGame();
+                    return;
+                }
             }
 
             /* Mouse Click */
@@ -33,13 +59,7 @@ public class Game {
 
             gameState.takeAction();
             gameState.display();
-            /* End Game Conditions */
-            if (gameState.getTimeLeft() == 0 || gameState.getScore() <= -50 || gameState.getLivesLeft() == 0) {
-                gameState.setState("Lose");
-            }
-            if (gameState.getNumFood() == 0) {
-                gameState.setState("Win");
-            }
+
         }
 
 

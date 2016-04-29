@@ -216,20 +216,29 @@ public class Board {
         StdDraw.text(xScale + 2.5, (yScale * 5)/9, "Score: " + gameState.getScore());
         StdDraw.text(xScale + 2.5, (yScale * 6)/9, "Time Left: " + gameState.getTimeLeft());
 
-        if (gameState.getState() == null) {
+        if (gameState.getState() == null || gameState.getState().equals("Pause")) {
+            if (gameState.getState() == null) {
+                StdDraw.text(xScale + 2.5, (yScale * 0.5)/9, "Press P to Pause.");
+            }
             StdDraw.text(xScale + 2.5, (yScale * 7.5)/9, "Lives Left: " + gameState.getLivesLeft());
             StdDraw.text(xScale + 2.5, (yScale * 1.5)/9, "Red Scared Timer:");
             StdDraw.text(xScale + 2.5, (yScale * 1.1)/9, "" + gameState.getGhosts().get(0).getScaredTimer());
             StdDraw.text(xScale + 2.5, (yScale * 2.5)/9, "Pink Scared Timer:");
             StdDraw.text(xScale + 2.5, (yScale * 2.1)/9, "" + gameState.getGhosts().get(1).getScaredTimer());
-        } else {
-            if (gameState.getState().equals("Win")) {
-                StdDraw.text(xScale + 2.5, (yScale * 8)/9, "You Win!");
-            } else if (gameState.getState().equals("Lose")) {
-                StdDraw.text(xScale + 2.5, (yScale * 8)/9, "You Lose!");
-            }
-            StdDraw.text(xScale + 2.5, (yScale * 2)/9, "Press Y to Restart.");
         }
+        if (gameState.getState() != null) {
+            if (gameState.getState().equals("Pause")) {
+                StdDraw.text(xScale + 2.5, (yScale * 0.5)/9, "Press P to Unpause.");
+            } else {
+                if (gameState.getState().equals("Win")) {
+                    StdDraw.text(xScale + 2.5, (yScale * 8)/9, "You Win!");
+                } else if (gameState.getState().equals("Lose")) {
+                    StdDraw.text(xScale + 2.5, (yScale * 8)/9, "You Lose!");
+                }
+                StdDraw.text(xScale + 2.5, (yScale * 2)/9, "Press Y to Restart.");
+            }
+        }
+
 
     }
 }

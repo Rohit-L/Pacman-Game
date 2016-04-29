@@ -58,6 +58,10 @@ public class GameState {
         StdDraw.show(45);
     }
 
+    public void pause() {
+        this.display();
+    }
+
     public void keyPressed(String direction) {
 //        Point pacmanCurrentPosition = this.pacman.getCurrentPosition();
 //        Point nextPosition = new Point(pacmanCurrentPosition);
